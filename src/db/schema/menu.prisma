@@ -1,0 +1,9 @@
+model Menu {
+  id          String @id @default(cuid())
+  nombre      String
+  descripcion String
+  precio      Float
+  categoria   String
+
+  @@map("menu")
+}

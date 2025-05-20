@@ -1,0 +1,8 @@
+model Platos_Pedido {
+  id String @unique @default(cuid())
+
+  id_pedido String
+  id_plato  String
+
+  @@map("platos_pedido")
+}

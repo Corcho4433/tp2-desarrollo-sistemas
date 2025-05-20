@@ -1,0 +1,6 @@
+model Categorias {
+  id        String @unique @default(cuid())
+  categoria String
+
+  @@map("categorias")
+}

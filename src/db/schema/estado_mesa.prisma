@@ -1,0 +1,6 @@
+model Estado_mesa {
+  id     String @unique @default(cuid())
+  estado String
+
+  @@map("estado_mesa")
+}

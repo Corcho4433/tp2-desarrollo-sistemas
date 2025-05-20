@@ -1,0 +1,10 @@
+model Domicilio_Cliente {
+  id         String @unique @default(cuid())
+  id_cliente String
+  domicilio  String
+
+  cliente Cliente   @relation(fields: [id_cliente], references: [id])
+  pedidos Pedidos[]
+
+  @@map("domicilio_cliente")
+}
