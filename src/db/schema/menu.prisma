@@ -5,5 +5,7 @@ model Menu {
   precio      Float
   categoria   String
 
+  pedidos Platos_Pedido[]
+
   @@map("menu")
 }

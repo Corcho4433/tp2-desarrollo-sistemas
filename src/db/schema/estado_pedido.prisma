@@ -2,5 +2,7 @@ model Estado_Pedido {
   id     String @unique @default(cuid())
   estado String
 
+  pedidos Pedidos[]
+
   @@map("estado_pedido")
 }
