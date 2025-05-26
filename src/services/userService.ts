@@ -17,8 +17,20 @@ export class UserService {
 		return UserService.instance;
 	}
 
-	public async getUserByEmail(email: string): Promise<boolean> {
-		return true;
+	public async getUser(correo: string, contrasena: string) {
+		try {
+			const user = await db.cliente.findFirst({
+				where: {
+					correo: correo,
+					contrasena: contrasena,
+				},
+			});
+			return user;
+		} catch (error) {
+			throw new Error(
+				"No se encontro el usuario con las credenciales ingresadas",
+			);
+		}
 	}
 
 	public async createUser(

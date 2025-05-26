@@ -11,10 +11,10 @@ authRouter.post("/register", async (req, res) => {
 		const user_service = UserService.getInstance();
 		const cliente = await user_service.createUser(
 			nombre,
-			contrasena,
-			telefono,
 			correo,
+			telefono,
 			domicilio_envio,
+			contrasena,
 		);
 		if (!cliente) {
 			throw new Error("No se pudo crear el cliente");
@@ -26,4 +26,18 @@ authRouter.post("/register", async (req, res) => {
 	}
 });
 
-authRouter.post("/login", async (req, res) => {});
+authRouter.post("/login", async (req, res) => {
+	try {
+		const { body } = req;
+		const { correo, contrasena } = body;
+		const user_service = UserService.getInstance();
+		const cliente = await user_service.getUser(correo, contrasena);
+		if (!cliente) {
+			throw new Error("El usuario no existe");
+		}
+		res.status(200).json({ data: cliente.id });
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ error: (error as Error).message });
+	}
+});

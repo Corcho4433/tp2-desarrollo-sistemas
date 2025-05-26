@@ -1,7 +1,7 @@
 model Administrador {
   id         String @id @default(cuid())
   nombre     String
-  correo     String
+  correo     String @unique
   telefono   String
   contrasena String
 
