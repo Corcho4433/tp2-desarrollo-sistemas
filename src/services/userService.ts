@@ -18,19 +18,13 @@ export class UserService {
 	}
 
 	public async getUser(correo: string, contrasena: string) {
-		try {
-			const user = await db.cliente.findFirst({
-				where: {
-					correo: correo,
-					contrasena: contrasena,
-				},
-			});
-			return user;
-		} catch (error) {
-			throw new Error(
-				"No se encontro el usuario con las credenciales ingresadas",
-			);
-		}
+		const user = await db.cliente.findFirst({
+			where: {
+				correo: correo,
+				contrasena: contrasena,
+			},
+		});
+		return user;
 	}
 
 	public async createUser(

@@ -17,7 +17,7 @@ authRouter.post("/register", async (req, res) => {
 			contrasena,
 		);
 		if (!cliente) {
-			throw new Error("No se pudo crear el cliente");
+			throw new Error("Hubo un error al crear cliente");
 		}
 		res.status(201).json({ data: cliente.id });
 	} catch (error) {
@@ -33,7 +33,9 @@ authRouter.post("/login", async (req, res) => {
 		const user_service = UserService.getInstance();
 		const cliente = await user_service.getUser(correo, contrasena);
 		if (!cliente) {
-			throw new Error("El usuario no existe");
+			throw new Error(
+				"No se encontro el usuario con las credenciales ingresadas",
+			);
 		}
 		res.status(200).json({ data: cliente.id });
 	} catch (error) {
