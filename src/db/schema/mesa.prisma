@@ -1,7 +1,11 @@
 model Mesa {
-  id          String @unique @default(cuid())
-  numero      Int
+  id          Int     @id @default(autoincrement())
   estado_mesa String
+  id_cliente  String? @unique
+
+  estado Estado_mesa @relation(fields: [estado_mesa], references: [id])
+
+  cliente Cliente? @relation(fields: [id_cliente], references: [id])
 
   @@map("mesas")
 }

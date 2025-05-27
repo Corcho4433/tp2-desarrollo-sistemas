@@ -1,6 +1,7 @@
 import express from "express";
 
 import { authRouter } from "./routers/authRouter";
+import { adminRouter } from "./routers/adminRouter";
 
 const app = express();
 const port = 3000;
@@ -8,6 +9,7 @@ const port = 3000;
 app.use(express.json());
 
 app.use("/auth", authRouter);
+app.use("/admin", adminRouter);
 
 app.listen(port, () => {
 	console.log(`Server running on http://localhost:${port}`);

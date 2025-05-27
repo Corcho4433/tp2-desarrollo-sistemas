@@ -2,5 +2,7 @@ model Estado_mesa {
   id     String @unique @default(cuid())
   estado String
 
+  mesa Mesa[]
+
   @@map("estado_mesa")
 }

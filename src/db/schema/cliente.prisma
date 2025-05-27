@@ -8,6 +8,7 @@ model Cliente {
 
   domicilio Domicilio_Cliente[]
   pedidos   Pedidos[]
+  mesa      Mesa?
 
   @@map("clientes")
 }
