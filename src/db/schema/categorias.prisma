@@ -2,5 +2,7 @@ model Categorias {
   id        String @unique @default(cuid())
   categoria String
 
+  Menu Menu[]
+
   @@map("categorias")
 }

@@ -5,7 +5,8 @@ model Menu {
   precio      Float
   categoria   String
 
-  pedidos Platos_Pedido[]
+  categoria_plato Categorias      @relation(fields: [categoria], references: [id])
+  pedidos         Platos_Pedido[]
 
   @@map("menu")
 }
