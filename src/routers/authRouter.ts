@@ -1,14 +1,16 @@
-import express from "express";
+import { Router } from "express";
 import { UserService } from "../services/userService";
+import { AuthService } from "../services/authService";
 
-export const authRouter = express.Router();
+export const authRouter = Router();
+
+const user_service = UserService.getInstance();
+const auth_service = AuthService.getInstance();
 
 authRouter.post("/register", async (req, res) => {
 	try {
 		const { body } = req;
 		const { nombre, correo, telefono, domicilio_envio, contrasena } = body;
-		//falta hashear la contraseña. Fijarse como es en nodejs
-		const user_service = UserService.getInstance();
 		const cliente = await user_service.createUser(
 			nombre,
 			correo,
@@ -30,8 +32,7 @@ authRouter.post("/login", async (req, res) => {
 	try {
 		const { body } = req;
 		const { correo, contrasena } = body;
-		const user_service = UserService.getInstance();
-		const cliente = await user_service.getUser(correo, contrasena);
+		const cliente = await auth_service.verifyUser(correo, contrasena);
 		if (!cliente) {
 			throw new Error(
 				"No se encontro el usuario con las credenciales ingresadas",

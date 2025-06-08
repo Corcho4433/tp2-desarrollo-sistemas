@@ -1,7 +1,7 @@
 import express from "express";
 
-import { authRouter } from "./routers/authRouter";
 import { adminRouter } from "./routers/adminRouter";
+import { authRouter } from "./routers/authRouter";
 import { menuRouter } from "./routers/menuRouter";
 
 const app = express();

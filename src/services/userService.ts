@@ -1,4 +1,5 @@
 import { db } from "../db/db";
+import { hash } from "bcrypt";
 
 export class UserService {
 	static instance: UserService;
@@ -17,11 +18,10 @@ export class UserService {
 		return UserService.instance;
 	}
 
-	public async getUser(correo: string, contrasena: string) {
+	public async getUser(correo: string) {
 		const user = await db.cliente.findFirst({
 			where: {
 				correo: correo,
-				contrasena: contrasena,
 			},
 		});
 		return user;
@@ -30,7 +30,7 @@ export class UserService {
 	public async createUser(
 		nombre: string,
 		correo: string,
-		telefono: string,
+		telefono: string,	
 		domicilio_envio: string,
 		contrasena: string,
 	) {
@@ -39,13 +39,14 @@ export class UserService {
 				data: {
 					correo,
 					nombre,
-					contrasena,
+					contrasena: await hash(contrasena, 10),
 					telefono,
 					domicilio_envio,
 				},
 			});
 			return user;
 		} catch (error) {
+			console.error("Error al crear cliente:", error);
 			throw new Error("Hubo un error al crear cliente");
 		}
 	}

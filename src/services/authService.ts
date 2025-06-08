@@ -1,3 +1,6 @@
+import { compare } from "bcrypt";
+import { UserService } from "./userService";
+
 export class AuthService {
 	static instance: AuthService;
 
@@ -15,19 +18,28 @@ export class AuthService {
 		return AuthService.instance;
 	}
 
-	public async login(email: string, password: string): Promise<boolean> {
-		return true;
-	}
+	public async verifyUser(email: string, password: string) {
+		try {
+			const userService = UserService.getInstance();
 
-	public async registerUser(
-		email: string,
-		nombre: string,
-		correo: string,
-		telefono: string,
-		domicilio_envio: string,
-		contrasena: string,
-	): Promise<boolean> {
-		return true;
+			const user = await userService.getUser(email);
+
+			if (!user) {
+				throw new Error("Cliente no encontrado");
+			}
+
+			const password_match = await compare(password, user.contrasena);
+
+			if (!password_match) {
+				throw new Error("Contraseña incorrecta");
+			}
+
+			return user;
+
+		} catch (error) {
+			console.error(error);
+			throw new Error("Hubo un error al verificar al cliente");
+		}
 	}
 
 	public async registerAdmin(email: string): Promise<boolean> {

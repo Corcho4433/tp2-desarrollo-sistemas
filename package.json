@@ -1,28 +1,30 @@
 {
-  "name": "tp2-desarrollo-sistemas",
-  "module": "index.ts",
-  "type": "module",
-  "private": true,
-  "scripts": {
-    "dev": "bun run --hot src/index.ts",
-    "migrate": "prisma migrate dev --schema src/db/schema",
-    "generate": "prisma generate --no-engine --schema src/db/schema"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "1.9.4",
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5"
-  },
-  "dependencies": {
-    "@prisma/client": "^6.8.2",
-    "@types/express": "^5.0.2",
-    "@types/node": "^22.15.19",
-    "cuid": "^3.0.0",
-    "dotenv": "^16.5.0",
-    "express": "^5.1.0",
-    "prisma": "^6.8.2",
-    "tsx": "^4.19.4"
-  }
+	"name": "tp2-desarrollo-sistemas",
+	"module": "index.ts",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"dev": "bun run --hot src/index.ts",
+		"migrate": "prisma migrate dev --schema src/db/schema",
+		"generate": "prisma generate --no-engine --schema src/db/schema"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
+		"@types/bun": "latest"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	},
+	"dependencies": {
+		"@prisma/client": "^6.8.2",
+		"@types/bcrypt": "^5.0.2",
+		"@types/express": "^5.0.2",
+		"@types/node": "^22.15.19",
+		"bcrypt": "^6.0.0",
+		"cuid": "^3.0.0",
+		"dotenv": "^16.5.0",
+		"express": "^5.1.0",
+		"prisma": "^6.8.2",
+		"tsx": "^4.19.4"
+	}
 }
