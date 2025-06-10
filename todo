@@ -2,18 +2,34 @@ Clientes:
 - Registrarse - LISTO
 - Logearse - LISTO
 - Autenticarse - FALTA LA JWT
-- Reservar una mesa (solo si esta disponible)
-- Hacer un pedido (se pone en pendiente)
-  - Se seleccionan los platos que quiera
+- Reservar una mesa (solo si esta disponible) - LISTO
+- Hacer un pedido (se pone en pendiente) - LISTO
+  - Se seleccionan los platos que quiera - LISTO
 - Consultar menu - LISTO
-- Consultar disponibilidad de mesas
+- Consultar disponibilidad de mesas - LISTO
 - Consultar estado de pedido
-- Categoria (sin descuento, habitue, premium, toppremium)
+- Categoria (sin descuento, habitue, premium, toppremium) - LISTO
 
 Admins:
 - Logearse
 - Autenticarse
-- Agregar/Eliminar platos
-- Disponibilizar mesa
+- Agregar/Eliminar platos - LISTO
+- Disponibilizar mesa - LISTO
 - Cambiar estado de pedido (en cocina, enviado)
 - Consultar estado de pedido
+
+
+FALTA:
+- CONSULTAR ESTADO DE PEDIDO
+- CAMBIAR ESTADO DE PEDIDO
+- AUTENTICAR CON JWT (HACER MIDDLEWARE Y SACAR USER_ID DEL JWT)
+- CAMBIAR HACER PEDIDO ASI:
+{
+    "id_cliente": "cmbpt1gcg0002u1e9gt8w4v0k",
+    "platos": [
+      {
+        "id_plato": "cmbpt1gcg0002u1e9gt8w4v0k",
+        "cantidad": 1
+      }
+    ] 
+}

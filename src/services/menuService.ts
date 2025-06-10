@@ -73,4 +73,27 @@ export class MenuService {
 			throw new Error("Hubo un error al conseguir el menú");
 		}
 	}
+
+	public async getTotalPrice(platos: string[]) {
+		try {
+			const platos_encontrados = await db.menu.findMany({
+				where: {
+					id: {
+						in: platos,
+					},
+				},
+				select: {
+					precio: true,
+				},
+			});
+			if (!platos_encontrados || platos_encontrados.length === 0) {
+				throw new Error("No se encontraron platos. Revisar ID.");
+			}
+			const total = platos_encontrados.reduce((acum, plato) => acum + plato.precio, 0);
+			return total;
+		}
+		catch (error) {
+			console.error(error);
+		}
+	}
 }

@@ -5,8 +5,8 @@ model Cliente {
   telefono        String
   domicilio_envio String
   contrasena      String
+  cantidad_pedidos Int    @default(0)
 
-  domicilio Domicilio_Cliente[]
   pedidos   Pedidos[]
   mesa      Mesa?
 

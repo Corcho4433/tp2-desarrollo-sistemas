@@ -1,5 +1,5 @@
 model Mesa {
-  id          Int     @id @default(autoincrement())
+  id          Int     @id
   estado_mesa String
   id_cliente  String? @unique
 

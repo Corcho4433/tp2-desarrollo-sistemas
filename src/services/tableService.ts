@@ -19,14 +19,30 @@ export class TableService {
 
 	public async createTable() {
 		try {
+			const last_id = await db.mesa.count();
+			const id = last_id + 1;
 			const table = await db.mesa.create({
 				data: {
+					id: id,
 					estado_mesa: "cmb5nkru20000x01ez8u5mlbr",
 				},
 			});
 			return table;
 		} catch (error) {
 			throw new Error("Hubo un error al crear la mesa");
+		}
+	}
+
+	public async deleteTable(id: number) {
+		try {
+			const table = await db.mesa.delete({
+				where: {
+					id: id,
+				},
+			});
+			return table;
+		} catch (error) {
+			throw new Error("Hubo un error al eliminar la mesa");
 		}
 	}
 
@@ -44,6 +60,40 @@ export class TableService {
 			return result;
 		} catch (error) {
 			throw new Error("Hubo un error al conseguir las mesas");
+		}
+	}
+
+	public async reserveTable(id: number, id_cliente: string) {
+		try {
+			const mesa = await db.mesa.update({
+				where: {
+					id: id,
+					estado_mesa: "cmb5nkru20000x01ez8u5mlbr",
+				},
+				data: {
+					estado_mesa: "cmb5nkru20000x01ez8u5mlbq",
+					id_cliente: id_cliente,
+				},
+			});
+			return mesa;
+		} catch (error) {
+			throw new Error("Hubo un error al reservar la mesa. Revisar disponibilidad");
+		}
+	}
+
+	public async freeTable(id: number) {
+		try {
+			const mesa = await db.mesa.update({
+				where: {
+					id: id,
+				},
+				data: {
+					estado_mesa: "cmb5nkru20000x01ez8u5mlbr",
+				},
+			});
+			return mesa;
+		} catch (error) {
+			throw new Error("Hubo un error al liberar la mesa");
 		}
 	}
 }

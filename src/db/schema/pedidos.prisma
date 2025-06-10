@@ -2,12 +2,12 @@ model Pedidos {
   id                   String @id @default(cuid())
   id_cliente           String
   id_estado            String
+  subtotal             Float
   monto_total          Float
   porcentaje_descuento Int
   domicilio_entrega    String
 
   cliente   Cliente           @relation(fields: [id_cliente], references: [id])
-  domicilio Domicilio_Cliente @relation(fields: [domicilio_entrega], references: [id])
   estado    Estado_Pedido     @relation(fields: [id_estado], references: [id])
 
   platos Platos_Pedido[]
