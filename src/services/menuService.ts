@@ -74,26 +74,23 @@ export class MenuService {
 		}
 	}
 
-	public async getTotalPrice(platos: string[]) {
+	public async getPrice(id_plato: string) {
 		try {
-			const platos_encontrados = await db.menu.findMany({
+			const plato = await db.menu.findUnique({
 				where: {
-					id: {
-						in: platos,
-					},
+					id: id_plato,
 				},
 				select: {
 					precio: true,
 				},
 			});
-			if (!platos_encontrados || platos_encontrados.length === 0) {
-				throw new Error("No se encontraron platos. Revisar ID.");
+			if (!plato) {
+				throw new Error("No se encontro el plato. Revisar datos.");
 			}
-			const total = platos_encontrados.reduce((acum, plato) => acum + plato.precio, 0);
-			return total;
-		}
-		catch (error) {
+			return plato.precio;
+		} catch (error) {
 			console.error(error);
+			throw new Error("Hubo un error al consultar el precio del plato");
 		}
 	}
 }

@@ -3,6 +3,7 @@ model Platos_Pedido {
 
   id_pedido String
   id_plato  String
+  cantidad  Int
 
   pedido Pedidos @relation(fields: [id_pedido], references: [id])
   platos Menu    @relation(fields: [id_plato], references: [id])

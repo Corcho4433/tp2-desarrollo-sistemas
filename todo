@@ -7,7 +7,7 @@ Clientes:
   - Se seleccionan los platos que quiera - LISTO
 - Consultar menu - LISTO
 - Consultar disponibilidad de mesas - LISTO
-- Consultar estado de pedido
+- Consultar estado de pedido - LISTO
 - Categoria (sin descuento, habitue, premium, toppremium) - LISTO
 
 Admins:
@@ -15,21 +15,23 @@ Admins:
 - Autenticarse
 - Agregar/Eliminar platos - LISTO
 - Disponibilizar mesa - LISTO
-- Cambiar estado de pedido (en cocina, enviado)
-- Consultar estado de pedido
+- Cambiar estado de pedido (en cocina, enviado) - LISTO
+- Consultar estado de pedido - LISTO
 
 
 FALTA:
-- CONSULTAR ESTADO DE PEDIDO
-- CAMBIAR ESTADO DE PEDIDO
+- CONSULTAR ESTADO DE PEDIDO - LISTO
+- CAMBIAR ESTADO DE PEDIDO - LISTO
 - AUTENTICAR CON JWT (HACER MIDDLEWARE Y SACAR USER_ID DEL JWT)
-- CAMBIAR HACER PEDIDO ASI:
+- CAMBIAR HACER PEDIDO ASI - LISTO:
 {
     "id_cliente": "cmbpt1gcg0002u1e9gt8w4v0k",
     "platos": [
       {
-        "id_plato": "cmbpt1gcg0002u1e9gt8w4v0k",
+        "id_plato": "sdfghsdafh",
         "cantidad": 1
       }
     ] 
 }
+
+- DOCUMENTACION (BUENA PIZZANO)

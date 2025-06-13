@@ -19,7 +19,7 @@ export class DeliveryService {
 		return DeliveryService.instance;
 	}
 
-    public async createDelivery(id_cliente: string, platos: string[]) {
+    public async createDelivery(id_cliente: string, platos: {id_plato: string, cantidad: number}[]) {
         try {
             const userService = UserService.getInstance();
             const menuService = MenuService.getInstance();
@@ -28,9 +28,19 @@ export class DeliveryService {
             if (!cliente) {
                 throw new Error("Cliente no encontrado");
             }
-            const precio_total = await menuService.getTotalPrice(platos);
-            if (!precio_total) {
-                throw new Error("Hubo un error al calcular el precio total");
+
+            let subtotal = 0;
+
+            for (const {id_plato, cantidad  } of platos) {
+                const precio_unitario = await menuService.getPrice(id_plato);
+                if (!precio_unitario) {
+                    throw new Error("Hubo un error al calcular el precio unitario");
+                }
+                subtotal += precio_unitario * cantidad;
+            }
+
+            if (!subtotal) {
+                throw new Error("Hubo un error al calcular el subtotal");
             }
             const domicilio_envio = cliente.domicilio_envio;
             await userService.addPedido(id_cliente);
@@ -39,22 +49,96 @@ export class DeliveryService {
                 data: {
                     id_cliente: id_cliente,
                     domicilio_entrega: domicilio_envio,
-                    subtotal: precio_total,
+                    subtotal: subtotal,
                     id_estado: "cmbppzpkd0000mku12mzshuv6",
                     porcentaje_descuento: descuento,
-                    monto_total: precio_total - (descuento*precio_total)/100,
+                    monto_total: subtotal - (descuento*subtotal)/100, 
                 },
             });
+
             await db.platos_Pedido.createMany({
-                data: platos.map((plato) => ({
-                    id_pedido: pedido.id,
-                    id_plato: plato,
-                })),
+                data: platos.map((plato) => ({ id_pedido: pedido.id, id_plato: plato.id_plato, cantidad: plato.cantidad })),
             });
+
             return pedido;
         } catch (error) {
             console.error(error);
             throw new Error("Hubo un error al crear el pedido. Revisar datos");
         }
     }
+
+    public async getDeliveryStatus(id_cliente: string) {
+        try {
+            const estado = await db.pedidos.findMany({
+                where: {
+                    id_cliente: id_cliente,
+                },
+                select: {
+                    id: true,
+                    estado: {
+                        select: {
+                            estado: true,
+                        },
+                    },
+                    monto_total: true,
+                    domicilio_entrega: true,
+                },
+            });
+            if (!estado) {
+                throw new Error("Este usuario no tiene pedidos.");
+            }
+            return estado;
+        } catch (error) {
+            console.error(error);
+            throw new Error("Hubo un error al consultar el estado del pedido");
+        }
+    }
+
+    public async updateDeliveryStatus(id_pedido: string, estado: string) {
+        try {
+            const pedido = await db.pedidos.findUnique({
+                where: {
+                    id: id_pedido,
+                }
+            });
+            if (!pedido) {
+                throw new Error("No se encontro el pedido.");
+            }
+            const estado_check = await db.estado_Pedido.findFirst({
+                where: {
+                    estado: estado,
+                },
+            });
+            if (!estado_check) {
+                throw new Error("Estado no encontrado. Revisar datos.");
+            }
+            await db.pedidos.update({
+                where: {
+                    id: id_pedido,
+                },
+                data: {
+                    id_estado: estado_check.id,
+                },
+            });
+            const pedido_estado = await db.pedidos.findUnique({
+                where: {
+                    id: id_pedido, 
+                },
+                select: {
+                    id: true,
+                    estado: {
+                        select: {
+                            estado: true,
+                        },
+                    },
+                    monto_total: true,
+                    domicilio_entrega: true,
+                },
+            });
+            return pedido_estado;
+        } catch (error) {
+            console.error(error);
+            throw new Error("Hubo un error al actualizar el estado del pedido");
+        }
+    }  
 }

@@ -24,3 +24,36 @@ deliveryRouter.post("/create_delivery", async (req, res) => {
         res.status(500).json({ error: (error as Error).message });
     }
 });
+
+deliveryRouter.get("/delivery_status", async (req, res) => {
+    try {
+        const { body } = req;
+        const { id_cliente } = body;
+        if (!id_cliente) {
+            res.status(500).json({ error: "Falta el parámetro `id_cliente`" });
+        }
+        const estado = await delivery_service.getDeliveryStatus(id_cliente);
+        res.status(200).json({ data: estado, "message": "Estado(s) de pedido(s)" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: (error as Error).message });
+    }
+});
+
+deliveryRouter.put("/update_delivery_status", async (req, res) => {
+    try {
+        const { body } = req;
+        const { id_pedido, estado } = body;
+        if (!id_pedido) {
+            res.status(500).json({ error: "Falta el parámetro `id_pedido`" });
+        }
+        if (!estado) {
+            res.status(500).json({ error: "Falta el parámetro `estado`" });
+        }
+        const estado_pedido = await delivery_service.updateDeliveryStatus(id_pedido, estado);
+        res.status(200).json({ data: estado_pedido, "message": "Estado(s) de pedido(s) actualizado(s)" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: (error as Error).message });
+    }
+});
