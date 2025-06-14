@@ -18,16 +18,35 @@ export class UserService {
 		return UserService.instance;
 	}
 
-	public async getUser(id_cliente: string) {
-		const user = await db.cliente.findFirst({
-			where: {
-				id: id_cliente,
-			},
-		});
-		return user;
+	public async getClient(id_user: string) {
+		try {
+			const cliente = await db.cliente.findFirst({
+				where: {
+					id: id_user,
+				},
+			});
+			return cliente;
+		} catch (error) {
+			console.error(error);
+			throw new Error("Hubo un error al obtener el cliente");
+		}
 	}
 
-	public async createUser(
+	public async getAdmin(id_user: string) {
+		try {
+			const admin = await db.administrador.findFirst({
+				where: {
+					id: id_user,
+				},
+			});
+			return admin;
+		} catch (error) {
+			console.error(error);
+			throw new Error("Hubo un error al obtener el admin");
+		}
+	}
+
+	public async createClient(
 		nombre: string,
 		correo: string,
 		telefono: string,	
@@ -48,6 +67,34 @@ export class UserService {
 		} catch (error) {
 			console.error("Error al crear cliente:", error);
 			throw new Error("Hubo un error al crear cliente");
+		}
+	}
+
+	public async parseRol(id_user: string) {
+		try {
+			const is_cliente = await db.cliente.findFirst({
+				where: {
+					id: id_user,
+				},
+			});
+
+			if (!is_cliente) {
+				const is_admin = await db.administrador.findFirst({
+					where: {
+						id: id_user,
+					},
+				});
+				if (!is_admin) {
+					throw new Error("Usuario no encontrado");
+				}
+				return "admin";
+			}
+
+			return "cliente";
+			
+		} catch (error) {
+			console.error(error);
+			throw new Error("Hubo un error al obtener el rol del usuario");
 		}
 	}
 
@@ -81,7 +128,7 @@ export class UserService {
 
 	public async addPedido(id_cliente: string) {
 		try {
-			const user = await this.getUser(id_cliente);
+			const user = await this.getClient(id_cliente);
 			if (!user) {
 				throw new Error("Cliente no encontrado");
 			}

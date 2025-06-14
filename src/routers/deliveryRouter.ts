@@ -2,14 +2,18 @@ import { Router } from "express";
 import { UserService } from "../services/userService";
 import { AuthService } from "../services/authService";
 import { DeliveryService } from "../services/deliveryService";
+import { isAuthMiddleware } from "../middleware/isAuthMiddleware";
 
 export const deliveryRouter = Router();
 
 const delivery_service = DeliveryService.getInstance();
 
-deliveryRouter.post("/create_delivery", async (req, res) => {
+deliveryRouter.post("/create_delivery", isAuthMiddleware, async (req, res) => {
     try {
         const { body } = req;
+
+        const { id_cliente } = req.user;
+
         const { id_cliente, platos } = body;
         if (!Array.isArray(platos)) {
             res.status(500).json({ error: "`platos` debe ser una lista (array)." });

@@ -1,7 +1,12 @@
 import { compare } from "bcrypt";
 import { UserService } from "./userService";
+import type { NextFunction } from "express";
+import { sign } from "jsonwebtoken";
 
 export class AuthService {
+
+	private userService = UserService.getInstance(); 
+
 	static instance: AuthService;
 
 	constructor() {
@@ -16,16 +21,14 @@ export class AuthService {
 			AuthService.instance = new AuthService();
 		}
 		return AuthService.instance;
-	}
+	} // apagalololololololololololololololololololo
 
-	public async verifyUser(email: string, password: string) {
+	public async verifyClient(email: string, password: string) {
 		try {
-			const userService = UserService.getInstance();
-
-			const user = await userService.getUser(email);
+			const user = await this.userService.getClient(email);
 
 			if (!user) {
-				throw new Error("Cliente no encontrado");
+				throw new Error("Usuario no encontrado");
 			}
 
 			const password_match = await compare(password, user.contrasena);
@@ -42,7 +45,14 @@ export class AuthService {
 		}
 	}
 
-	public async registerAdmin(email: string): Promise<boolean> {
-		return true;
+	public async generateUserSession(id_user: string, role: "admin" | "cliente") {
+		try {
+			const token = sign({ id_user, role: role }, process.env.SECRET_KEY);
+			return token;
+		} catch (error) {
+			throw new Error("Error al generar el token :c");
+		}
 	}
+
+
 }
