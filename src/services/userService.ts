@@ -18,9 +18,23 @@ export class UserService {
 		return UserService.instance;
 	}
 
-	public async getClient(id_user: string) {
+	public async getClientByEmail(email: string) {
 		try {
-			const cliente = await db.cliente.findFirst({
+			const cliente = await db.cliente.findUnique({
+				where: {
+					correo: email,
+				},
+			});
+			return cliente;
+		} catch (error) {
+			console.error(error);
+			throw new Error("Hubo un error al obtener el cliente");
+		}
+	}
+
+	public async getClientById(id_user: string) {
+		try {
+			const cliente = await db.cliente.findUnique({
 				where: {
 					id: id_user,
 				},
@@ -32,11 +46,11 @@ export class UserService {
 		}
 	}
 
-	public async getAdmin(id_user: string) {
+	public async getAdmin(email: string) {
 		try {
-			const admin = await db.administrador.findFirst({
+			const admin = await db.administrador.findUnique({
 				where: {
-					id: id_user,
+					correo: email,
 				},
 			});
 			return admin;
@@ -128,7 +142,7 @@ export class UserService {
 
 	public async addPedido(id_cliente: string) {
 		try {
-			const user = await this.getClient(id_cliente);
+			const user = await this.getClientById(id_cliente);
 			if (!user) {
 				throw new Error("Cliente no encontrado");
 			}

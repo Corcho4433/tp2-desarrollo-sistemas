@@ -38,8 +38,8 @@ authRouter.post("/login", async (req, res) => {
 				"No se encontro el usuario con las credenciales ingresadas",
 			);
 		}
-		const rol_usuario = await user_service.getRole(usuario.id);
-		const token = await auth_service.generateUserSession(usuario.id);
+		const rol_usuario = await user_service.parseRol(usuario.id);
+		const token = await auth_service.generateUserSession(usuario.id, rol_usuario);
 		res.status(200).json({ data: token });
 	} catch (error) {
 		console.error(error);
@@ -57,8 +57,8 @@ authRouter.post("/admin_login", async (req, res) => {
 				"No se encontro el usuario con las credenciales ingresadas",
 			);
 		}
-		const rol_usuario = await user_service.getRole(usuario.id);
-		const token = await auth_service.generateAdminSession(usuario.id);
+		const rol_usuario = await user_service.parseRol(usuario.id);
+		const token = await auth_service.generateUserSession(usuario.id, rol_usuario);
 		res.status(200).json({ data: token });
 	} catch (error) {
 		console.error(error);

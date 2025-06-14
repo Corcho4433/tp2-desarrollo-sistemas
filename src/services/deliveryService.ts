@@ -5,6 +5,9 @@ import { MenuService } from "./menuService";
 export class DeliveryService {
 	static instance: DeliveryService;
 
+    private userService = UserService.getInstance();
+    private menuService = MenuService.getInstance();
+
 	constructor() {
 		if (DeliveryService.instance) {
 			throw new Error("Usa DeliveryService.getInstance()!");
@@ -21,10 +24,8 @@ export class DeliveryService {
 
     public async createDelivery(id_cliente: string, platos: {id_plato: string, cantidad: number}[]) {
         try {
-            const userService = UserService.getInstance();
-            const menuService = MenuService.getInstance();
 
-            const cliente = await userService.getUser(id_cliente);
+            const cliente = await this.userService.getClientById(id_cliente);
             if (!cliente) {
                 throw new Error("Cliente no encontrado");
             }
@@ -32,7 +33,7 @@ export class DeliveryService {
             let subtotal = 0;
 
             for (const {id_plato, cantidad  } of platos) {
-                const precio_unitario = await menuService.getPrice(id_plato);
+                const precio_unitario = await this.menuService.getPrice(id_plato);
                 if (!precio_unitario) {
                     throw new Error("Hubo un error al calcular el precio unitario");
                 }
@@ -43,8 +44,8 @@ export class DeliveryService {
                 throw new Error("Hubo un error al calcular el subtotal");
             }
             const domicilio_envio = cliente.domicilio_envio;
-            await userService.addPedido(id_cliente);
-            const descuento = await userService.getDiscount(id_cliente); 
+            await this.userService.addPedido(id_cliente);
+            const descuento = await this.userService.getDiscount(id_cliente); 
             const pedido = await db.pedidos.create({
                 data: {
                     id_cliente: id_cliente,

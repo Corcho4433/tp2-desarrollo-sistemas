@@ -1,5 +1,10 @@
 import type { Request, Response, NextFunction } from "express";
 import { verify, type JwtPayload, TokenExpiredError } from "jsonwebtoken";
+import type { Cliente } from "@prisma/client";
+import type { Administrador } from "@prisma/client";
+
+export interface ClienteFromToken extends Pick<Cliente 	, "id"> {}
+export interface AdministradorFromToken extends Pick<Administrador 	, "id"> {}
 
 export const isAuthMiddleware = async (
 	req: Request,
@@ -22,7 +27,7 @@ export const isAuthMiddleware = async (
 }
 		payload = verify(access_token, process.env.SECRET_KEY) as JwtPayload;
 
-		if (!payload.user_id) {
+		if (!payload.id_user) {
 			res.status(401).json({ message: "NO hay user_id en el token :c" });
 			return;
 		}
@@ -43,7 +48,7 @@ export const isAuthMiddleware = async (
 	}
 
 	try {
-		req.user = { id: payload.user_id, role: payload.role };
+		req.user = { id: payload.id_user, role: payload.role };
 	} catch (error) {
 		res.status(401).json({ message: "Token invalido :c" });
 		return;

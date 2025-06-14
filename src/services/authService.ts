@@ -25,7 +25,7 @@ export class AuthService {
 
 	public async verifyClient(email: string, password: string) {
 		try {
-			const user = await this.userService.getClient(email);
+			const user = await this.userService.getClientByEmail(email);
 
 			if (!user) {
 				throw new Error("Usuario no encontrado");
@@ -45,6 +45,28 @@ export class AuthService {
 		}
 	}
 
+	public async verifyAdmin(email: string, password: string) {
+		try {
+			const user = await this.userService.getAdmin(email);
+
+			if (!user) {
+				throw new Error("Usuario no encontrado");
+			}
+
+			const password_match = await compare(password, user.contrasena);
+
+			if (!password_match) {
+				throw new Error("Contraseña incorrecta");
+			}
+
+			return user;
+
+		} catch (error) {
+			console.error(error);
+			throw new Error("Hubo un error al verificar al admin");
+		}
+	}
+
 	public async generateUserSession(id_user: string, role: "admin" | "cliente") {
 		try {
 			const token = sign({ id_user, role: role }, process.env.SECRET_KEY);
@@ -53,6 +75,4 @@ export class AuthService {
 			throw new Error("Error al generar el token :c");
 		}
 	}
-
-
 }

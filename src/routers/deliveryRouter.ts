@@ -2,7 +2,7 @@ import { Router } from "express";
 import { UserService } from "../services/userService";
 import { AuthService } from "../services/authService";
 import { DeliveryService } from "../services/deliveryService";
-import { isAuthMiddleware } from "../middleware/isAuthMiddleware";
+import { isAuthMiddleware, type AdministradorFromToken, type ClienteFromToken } from "../middleware/isAuthMiddleware";
 
 export const deliveryRouter = Router();
 
@@ -12,16 +12,21 @@ deliveryRouter.post("/create_delivery", isAuthMiddleware, async (req, res) => {
     try {
         const { body } = req;
 
-        const { id_cliente } = req.user;
+        const cliente = req.user as ClienteFromToken;
 
-        const { id_cliente, platos } = body;
+        if (!cliente || !cliente.id) {
+            res.status(401).json({ error: "No tienes permisos para realizar esta acción." });
+            
+        }
+        const { platos } = body;
         if (!Array.isArray(platos)) {
             res.status(500).json({ error: "`platos` debe ser una lista (array)." });
         }
         if (platos.length === 0) {
             res.status(500).json({ error: "La lista de `platos` no puede estar vacía." });
         }
-        const pedido = await delivery_service.createDelivery(id_cliente, platos);
+        
+        const pedido = await delivery_service.createDelivery(cliente.id, platos);
         res.status(201).json({ data: pedido.id, "message": "Pedido creado" });
     } catch (error) {
         console.error(error);
@@ -29,7 +34,7 @@ deliveryRouter.post("/create_delivery", isAuthMiddleware, async (req, res) => {
     }
 });
 
-deliveryRouter.get("/delivery_status", async (req, res) => {
+deliveryRouter.get("/delivery_status", isAuthMiddleware, async (req, res) => {
     try {
         const { body } = req;
         const { id_cliente } = body;
@@ -44,9 +49,14 @@ deliveryRouter.get("/delivery_status", async (req, res) => {
     }
 });
 
-deliveryRouter.put("/update_delivery_status", async (req, res) => {
+deliveryRouter.put("/update_delivery_status", isAuthMiddleware, async (req, res) => {
     try {
         const { body } = req;
+        
+        if (!req.user || req.user.role !== "admin") {
+	        res.status(403).json({ error: "No tienes permisos para realizar esta acción." });
+        }       
+
         const { id_pedido, estado } = body;
         if (!id_pedido) {
             res.status(500).json({ error: "Falta el parámetro `id_pedido`" });

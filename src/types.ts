@@ -1,5 +1,3 @@
-import type { Administrador, Cliente } from "@prisma/client";
-
 declare global {
 	namespace NodeJS {
 		interface ProcessEnv {
