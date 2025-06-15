@@ -1,8 +1,6 @@
 import { Router } from "express";
-import { UserService } from "../services/userService";
-import { AuthService } from "../services/authService";
 import { DeliveryService } from "../services/deliveryService";
-import { isAuthMiddleware, type AdministradorFromToken, type ClienteFromToken } from "../middleware/isAuthMiddleware";
+import { isAuthMiddleware, type ClienteFromToken } from "../middleware/isAuthMiddleware";
 
 export const deliveryRouter = Router();
 
@@ -10,18 +8,23 @@ const delivery_service = DeliveryService.getInstance();
 
 deliveryRouter.post("/create_delivery", isAuthMiddleware, async (req, res) => {
     try {
+        if (!req.user || req.user.role !== "cliente") {
+	        res.status(403).json({ error: "No tienes permisos para realizar esta acción." });
+            return;
+        }
         const { body } = req;
 
         const cliente = req.user as ClienteFromToken;
-
-        if (!cliente || !cliente.id) {
-            res.status(401).json({ error: "No tienes permisos para realizar esta acción." });
-            
-        }
         const { platos } = body;
+
+        if (!platos) {
+            res.status(500).json({ error: "Falta el parámetro `platos`" });
+        }
+
         if (!Array.isArray(platos)) {
             res.status(500).json({ error: "`platos` debe ser una lista (array)." });
         }
+
         if (platos.length === 0) {
             res.status(500).json({ error: "La lista de `platos` no puede estar vacía." });
         }
@@ -51,6 +54,10 @@ deliveryRouter.get("/delivery_status", isAuthMiddleware, async (req, res) => {
 
 deliveryRouter.put("/update_delivery_status", isAuthMiddleware, async (req, res) => {
     try {
+        if (!req.user || req.user.role !== "admin") {
+	        res.status(403).json({ error: "No tienes permisos para realizar esta acción." });
+            return;
+        }
         const { body } = req;
         
         if (!req.user || req.user.role !== "admin") {

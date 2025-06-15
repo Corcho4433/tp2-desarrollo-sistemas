@@ -139,7 +139,7 @@ export class DeliveryService {
             return pedido_estado;
         } catch (error) {
             console.error(error);
-            throw new Error("Hubo un error al actualizar el estado del pedido");
+            throw new Error("Hubo un error al actualizar el estado del pedido. Revisar datos.");
         }
     }  
 }

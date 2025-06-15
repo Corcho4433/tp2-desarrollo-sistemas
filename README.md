@@ -1,5 +1,7 @@
 # tp2-desarrollo-sistemas
 
+Integrantes: Lisandro Garcia Seminara, Agustin Pizzano
+
 To install dependencies:
 
 ```bash

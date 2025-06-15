@@ -1,6 +1,5 @@
 import { compare } from "bcrypt";
 import { UserService } from "./userService";
-import type { NextFunction } from "express";
 import { sign } from "jsonwebtoken";
 
 export class AuthService {
@@ -72,7 +71,8 @@ export class AuthService {
 			const token = sign({ id_user, role: role }, process.env.SECRET_KEY);
 			return token;
 		} catch (error) {
-			throw new Error("Error al generar el token :c");
+			console.error(error);
+			throw new Error("Error al generar el token");
 		}
 	}
 }

@@ -29,6 +29,7 @@ export class TableService {
 			});
 			return table;
 		} catch (error) {
+			console.error(error);
 			throw new Error("Hubo un error al crear la mesa");
 		}
 	}
@@ -42,7 +43,8 @@ export class TableService {
 			});
 			return table;
 		} catch (error) {
-			throw new Error("Hubo un error al eliminar la mesa");
+			console.error(error);
+			throw new Error("Hubo un error al eliminar la mesa. Revisar datos.");
 		}
 	}
 
@@ -59,6 +61,7 @@ export class TableService {
 			}));
 			return result;
 		} catch (error) {
+			console.error(error);
 			throw new Error("Hubo un error al conseguir las mesas");
 		}
 	}
@@ -77,6 +80,7 @@ export class TableService {
 			});
 			return mesa;
 		} catch (error) {
+			console.error(error);
 			throw new Error("Hubo un error al reservar la mesa. Revisar disponibilidad");
 		}
 	}
@@ -89,11 +93,13 @@ export class TableService {
 				},
 				data: {
 					estado_mesa: "cmb5nkru20000x01ez8u5mlbr",
+					id_cliente: null,
 				},
 			});
 			return mesa;
 		} catch (error) {
-			throw new Error("Hubo un error al liberar la mesa");
+			console.error(error);
+			throw new Error("Hubo un error al liberar la mesa. Revisar datos.");
 		}
 	}
 }

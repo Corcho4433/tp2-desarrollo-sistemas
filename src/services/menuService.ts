@@ -44,7 +44,22 @@ export class MenuService {
 			});
 			return dish;
 		} catch (error) {
-			throw new Error("Hubo un error al agregar el plato");
+			console.error(error);
+			throw new Error("Hubo un error al agregar el plato. Revisar datos.");
+		}
+	}
+
+	public async deleteDish(id_plato: string) {
+		try {
+			const dish = await db.menu.delete({
+				where: {
+					id: id_plato,
+				},
+			});
+			return dish;
+		} catch (error) {
+			console.error(error);
+			throw new Error("Hubo un error al eliminar el plato. Revisar datos.");
 		}
 	}
 
