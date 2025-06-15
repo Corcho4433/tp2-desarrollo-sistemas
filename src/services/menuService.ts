@@ -1,4 +1,4 @@
-import { db } from "../db/db";
+import { db } from "../db/db.js";
 
 export class MenuService {
 	static instance: MenuService;

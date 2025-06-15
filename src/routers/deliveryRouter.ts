@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { DeliveryService } from "../services/deliveryService";
-import { isAuthMiddleware, type ClienteFromToken } from "../middleware/isAuthMiddleware";
+import { DeliveryService } from "../services/deliveryService.js";
+import { isAuthMiddleware, type ClienteFromToken } from "../middleware/isAuthMiddleware.js";
 
 export const deliveryRouter = Router();
 

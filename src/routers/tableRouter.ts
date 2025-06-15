@@ -1,7 +1,7 @@
 import express from "express";
 import type { Request } from "express"
-import { TableService } from "../services/tableService";
-import { isAuthMiddleware, type ClienteFromToken } from "../middleware/isAuthMiddleware";
+import { TableService } from "../services/tableService.js";
+import { isAuthMiddleware, type ClienteFromToken } from "../middleware/isAuthMiddleware.js";
 
 export const tableRouter = express.Router();
 

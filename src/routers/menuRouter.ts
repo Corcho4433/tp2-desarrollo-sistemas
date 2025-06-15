@@ -1,6 +1,6 @@
 import express from "express";
-import { MenuService } from "../services/menuService";
-import { isAuthMiddleware } from "../middleware/isAuthMiddleware";
+import { MenuService } from "../services/menuService.js";
+import { isAuthMiddleware } from "../middleware/isAuthMiddleware.js";
 
 export const menuRouter = express.Router();
 

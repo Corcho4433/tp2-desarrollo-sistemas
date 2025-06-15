@@ -1,6 +1,6 @@
-import { db } from "../db/db";
-import { UserService } from "./userService";
-import { MenuService } from "./menuService";
+import { db } from "../db/db.js";
+import { UserService } from "./userService.js";
+import { MenuService } from "./menuService.js";
 
 export class DeliveryService {
 	static instance: DeliveryService;

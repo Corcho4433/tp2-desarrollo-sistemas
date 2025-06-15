@@ -1,6 +1,8 @@
-import { compare } from "bcrypt";
-import { UserService } from "./userService";
-import { sign } from "jsonwebtoken";
+import * as bcrypt from "bcrypt";
+const { compare } = bcrypt;
+import { UserService } from "./userService.js";
+import jwt from "jsonwebtoken";
+const { sign } = jwt;
 
 export class AuthService {
 

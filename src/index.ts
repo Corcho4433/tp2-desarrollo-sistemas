@@ -1,9 +1,9 @@
 import express from "express";
 
-import { authRouter } from "./routers/authRouter";
-import { menuRouter } from "./routers/menuRouter";
-import { tableRouter } from "./routers/tableRouter";
-import { deliveryRouter } from "./routers/deliveryRouter";
+import { authRouter } from "./routers/authRouter.js";
+import { menuRouter } from "./routers/menuRouter.js";
+import { tableRouter } from "./routers/tableRouter.js";
+import { deliveryRouter } from "./routers/deliveryRouter.js";
 
 const app = express();
 const port = 3000;

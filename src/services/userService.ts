@@ -1,5 +1,6 @@
-import { db } from "../db/db";
-import { hash } from "bcrypt";
+import { db } from "../db/db.js";
+import * as bcrypt from "bcrypt";
+const { hash } = bcrypt;
 
 export class UserService {
 	static instance: UserService;
