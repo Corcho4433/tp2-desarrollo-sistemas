@@ -12,10 +12,13 @@ Una vez hecho esto, debes crear un archivo .env con el SECRET_KEY que se le asig
 
 ```bash
 DATABASE_URL=file:./../../../bd.db
-```bash
+```
+
 ```bash
 SECRET_KEY=<SECRET_KEY_DESEADA>
-```bash
+```
+
+
 Para instalar las dependencias:
 
 ```bash
