@@ -2,6 +2,17 @@
 
 Integrantes: Lisandro Garcia Seminara, Agustin Pizzano
 
+IMPORTANTE: A la hora de clonar el repositorio debes hacer este comando para tener la version entregable (con NodeJS):
+
+```bash
+git switch nodejs
+```
+
+Una vez hecho esto, debes crear un archivo .env con el SECRET_KEY que se le asignará en la autenticación y la DATABASE_URL de esta forma:
+
+DATABASE_URL=file:./../../../bd.db
+SECRET_KEY=<SECRET_KEY_DESEADA>
+
 Para instalar las dependencias:
 
 ```bash
