@@ -42,7 +42,6 @@ export class AuthService {
 
 		} catch (error) {
 			console.error(error);
-			throw new Error("Hubo un error al verificar al cliente");
 		}
 	}
 
@@ -64,7 +63,6 @@ export class AuthService {
 
 		} catch (error) {
 			console.error(error);
-			throw new Error("Hubo un error al verificar al admin");
 		}
 	}
 

@@ -6,6 +6,8 @@
         "module": "ESNext",
         "moduleDetection": "force",
         "allowJs": true,
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
 
         "moduleResolution": "node",
         "allowSyntheticDefaultImports": true,

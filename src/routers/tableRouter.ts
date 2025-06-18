@@ -62,7 +62,7 @@ tableRouter.post("/add_table", isAuthMiddleware, async (req, res) => {
     }
 });
 
-tableRouter.post("/remove_table/:id", isAuthMiddleware, async (req: Request<{id: string}>, res) => {
+tableRouter.delete("/remove_table/:id", isAuthMiddleware, async (req: Request<{id: string}>, res) => {
     try {
         if (!req.user || req.user.role !== "admin") {
 	        res.status(403).json({ error: "No tienes permisos para realizar esta acción." });
@@ -70,7 +70,7 @@ tableRouter.post("/remove_table/:id", isAuthMiddleware, async (req: Request<{id:
         }
         const id = Number.parseInt(req.params.id);
         const mesa = await table_service.deleteTable(id);
-        res.status(201).json({ data: mesa.id, "message": "Mesa eliminada" });
+        res.status(200).json({ data: mesa.id, "message": "Mesa eliminada" });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: (error as Error).message });

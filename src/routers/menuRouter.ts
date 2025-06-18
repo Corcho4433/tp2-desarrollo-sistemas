@@ -54,7 +54,7 @@ menuRouter.delete("/delete_dish", isAuthMiddleware, async (req, res) => {
 		const { body } = req;
 		const { id_plato } = body;
 		const plato = await menu_service.deleteDish(id_plato);
-		res.status(201).json({ data: plato.id, "message": "Plato eliminado" });
+		res.status(200).json({ data: plato.id, "message": "Plato eliminado" });
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: (error as Error).message });

@@ -58,11 +58,7 @@ deliveryRouter.put("/update_delivery_status", isAuthMiddleware, async (req, res)
 	        res.status(403).json({ error: "No tienes permisos para realizar esta acción." });
             return;
         }
-        const { body } = req;
-        
-        if (!req.user || req.user.role !== "admin") {
-	        res.status(403).json({ error: "No tienes permisos para realizar esta acción." });
-        }       
+        const { body } = req;   
 
         const { id_pedido, estado } = body;
         if (!id_pedido) {
@@ -72,7 +68,7 @@ deliveryRouter.put("/update_delivery_status", isAuthMiddleware, async (req, res)
             res.status(500).json({ error: "Falta el parámetro `estado`" });
         }
         const estado_pedido = await delivery_service.updateDeliveryStatus(id_pedido, estado);
-        res.status(200).json({ data: estado_pedido, "message": "Estado(s) de pedido(s) actualizado(s)" });
+        res.status(200).json({ data: estado_pedido, "message": "Estado de pedido actualizado" });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: (error as Error).message });
